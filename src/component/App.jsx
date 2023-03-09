@@ -28,7 +28,7 @@ function App(){
                 content: content
             };
         });
-
+        console.log(noteData);
         setDataStorage( (prevValue) => {
             return [...prevValue, noteData];
         } )
@@ -40,11 +40,10 @@ function App(){
         <Header />
         <CreateArea onAdd={addItem}/>
         { 
-            dataStorage.map( (_element, index) => {
-                const [data] = dataStorage;
-                const {title: title, content: content} = data;
-                console.log(title, content);
-                return <Note key={index} title={title} content={content} />
+            dataStorage.map( (data, index) => {
+                const title = data.title;
+                const content = data.content;
+                return <Note  key={index} title={title} content={content} />
             } ) 
         }
         {/* <Note title={ noteTitle.map( title => {return title}) } content={ noteContent.map( content => {return content}) } /> */}
