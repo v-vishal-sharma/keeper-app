@@ -1,9 +1,14 @@
 import React, { useState } from "react";
+import AddIcon from '@mui/icons-material/Add';
+import Fab from '@mui/material/Fab';
+import Zoom from '@mui/material/Zoom';
 
 function CreateArea(props) {
 
   // const [noteTitle, setNoteTitle] = useState("");
   // const [noteContent, setNoteContent] = useState("");
+
+  const [editState, setEditState] = useState(false);
 
   const [note, setNote] = useState({
     title: "",
@@ -27,31 +32,44 @@ function CreateArea(props) {
     });
   }
 
+  function handleState() {
+    setEditState(true);
+  }
+  // function reverseState() {
+  //   setEditState(false);
+  // }
+
   return (
     <div>
-      <form onSubmit={ e => { e.preventDefault(); }}>
-        <input 
+      <form className="create-note" onSubmit={ e => { e.preventDefault(); }}>
+        {editState && <input 
           value={note.title} 
           onChange={handleChange} 
           name="title" 
           placeholder="Title" 
           autoComplete="off"
-        />
+        />}
         <textarea 
           value={note.content} 
-          onChange={handleChange} 
+          onChange={handleChange}
+          onClick={handleState}
+          // onBlur={reverseState} 
           name="content" 
           placeholder="Take a note..." 
-          rows="3" 
+          rows={editState?"3":"1"} 
           autoComplete="off"
         />
-        <button type="submit" onClick={ () => {
-          props.onAdd(note);
-          setNote({
+        <Zoom in={editState}>
+          <Fab type="submit" onClick={ () => {
+            props.onAdd(note);
+            setNote({
             title: "",
             content: ""
-          })
-        }}>Add</button>
+            })
+          }}>
+            <AddIcon/>
+          </Fab>
+        </Zoom>
       </form>
     </div>
   );
