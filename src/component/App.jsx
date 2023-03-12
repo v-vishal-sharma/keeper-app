@@ -8,13 +8,14 @@ function App(){
 
     // const [noteTitle, setNoteTitle] = useState([]);
     // const [noteContent, setNoteContent] = useState([]);
-    const [noteData, setNoteData] = useState({
-        title: "",
-        content: ""
-    });
+    // const [noteData, setNoteData] = useState({
+    //     title: "",
+    //     content: ""
+    // }) 
+
     const [dataStorage, setDataStorage] = useState([]);
 
-    function addItem(title, content) {
+    function addItem(note) {
         // setNoteTitle( (prevItems) => {
         //     return [...prevItems, title];
         // });
@@ -22,17 +23,25 @@ function App(){
         //     return [...prevItems, content];
         // });
 
-        setNoteData( () => {
-            return {
-                title: title,
-                content: content
-            };
-        });
-        console.log(noteData);
-        setDataStorage( (prevValue) => {
-            return [...prevValue, noteData];
-        } )
+        // setNoteData( () => {
+        //     console.log(title);
+        //     console.log(content);
+        //     return {
+        //         [title]: content,
+        //     };
+        // });
 
+        setDataStorage( (prevValue) => {
+            return [...prevValue, note];
+        })
+    }
+
+    function deleteItem(id) {
+        setDataStorage(prevValue => {
+            return prevValue.filter((item,index) => {
+                return index!==id;
+            });
+        });
     }
 
     return (
@@ -43,10 +52,9 @@ function App(){
             dataStorage.map( (data, index) => {
                 const title = data.title;
                 const content = data.content;
-                return <Note  key={index} title={title} content={content} />
+                return <Note id={index} key={index} title={title} content={content} onDelete={deleteItem} />
             } ) 
         }
-        {/* <Note title={ noteTitle.map( title => {return title}) } content={ noteContent.map( content => {return content}) } /> */}
         <Footer />
     </div>
     );
